@@ -27,14 +27,27 @@
           </div>
         </div>
       </li>
-      <li class="collection-item" v-for="todo in todos" :key="todo.id" :class="{ fade: todo.isCompleted }">
-        {{todo.title}}
+      <li
+        v-for="todo in todos"
+        :key="todo.id"
+        class="collection-item"
+        :class="{ fade: todo.isCompleted }"
+      >
+        <span
+          class="deleteIcon"
+          @click="deleteToDo(todo.id)"
+        >✕</span>
+        {{ todo.title }}
         <span class="secondary-content">
-            <label>
-                <input type="checkbox" class="filled-in" :checked="todo.isCompleted"
-                    @change="updateTodoItem(todo.id, $event)" />
-                <span></span>
-            </label>
+          <label>
+            <input
+              type="checkbox"
+              class="filled-in"
+              :checked="todo.isCompleted"
+              @change="updateTodoItem(todo.id, $event)"
+            >
+            <span />
+          </label>
         </span>
       </li>
     </ul>
@@ -87,10 +100,30 @@
             createdAt: new Date(),
             isCompleted: false,
         });
-      }
-    },
+      },
+      deleteToDo(docId) {
+        firebase
+            .firestore()
+            .collection("users")
+            .doc(firebase.auth().currentUser.uid)
+            .collection("todos")
+            .doc(docId)
+            .delete();
+      },
+      updateTodoItem(docId, e) {
+        var isChecked = e.target.checked;
+        firebase
+            .firestore()
+            .collection("users")
+            .doc(firebase.auth().currentUser.uid)
+            .collection("todos")
+            .doc(docId)
+            .update({
+                isCompleted: isChecked
+            });
+      },
+    }
   }
-
 </script>
 
 <style>
