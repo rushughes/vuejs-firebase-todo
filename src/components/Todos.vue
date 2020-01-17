@@ -131,4 +131,11 @@
     max-width: 500px;
     margin: 0 auto;
 }
+.deleteIcon {
+    margin-right: 10px;
+    cursor: pointer;
+}
+.deleteIcon:hover {
+    opacity: 0.5;
+}
 </style>
