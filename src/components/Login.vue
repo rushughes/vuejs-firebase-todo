@@ -23,12 +23,15 @@ export default {
         return {};
     },
     mounted() {
-        var ui = new firebaseui.auth.AuthUI(firebase.auth());
-        var uiConfig = {
-            signInSuccessUrl: "/profile",
-            signInOptions: [firebase.auth.FacebookAuthProvider.PROVIDER_ID]
-        };
-        ui.start("#firebaseui-auth-container", uiConfig);
+      let ui = firebaseui.auth.AuthUI.getInstance();
+      if (!ui) {
+        ui = new firebaseui.auth.AuthUI(firebase.auth());
+      }
+      var uiConfig = {
+          signInSuccessUrl: "/profile",
+          signInOptions: [firebase.auth.FacebookAuthProvider.PROVIDER_ID]
+      };
+      ui.start("#firebaseui-auth-container", uiConfig);
     }
 };
 </script>
