@@ -29,7 +29,10 @@ export default {
       }
       var uiConfig = {
           signInSuccessUrl: "/profile",
-          signInOptions: [firebase.auth.FacebookAuthProvider.PROVIDER_ID]
+          signInOptions: [
+            firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID
+          ]
       };
       ui.start("#firebaseui-auth-container", uiConfig);
     }
