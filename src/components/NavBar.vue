@@ -27,11 +27,23 @@
             Profile
           </router-link>
         </li>
+        <li>
+          <a @click="signoutButtonPressed">Logout</a>
+        </li>
       </ul>
     </div>
   </nav>
 </template>
 
 <script>
-export default {};
+import firebase from "firebase";
+export default {
+    methods: {
+        signoutButtonPressed(e) {
+            e.stopPropagation();
+            firebase.auth().signOut();
+            this.$router.push("Login");
+        }
+    }
+};
 </script>
