@@ -1,4 +1,4 @@
-import Firebase from 'firebase';
+import firebase from 'firebase';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import App from './App';
@@ -18,8 +18,8 @@ var firebaseConfig = {
   measurementId: process.env.VUE_APP_FIREBASE_MEASUREMENTID
 };
 // Initialize Firebase
-Firebase.initializeApp(firebaseConfig);
-Firebase.analytics();
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
 
 Vue.config.productionTip = false
 Vue.use(VueRouter);
@@ -27,11 +27,56 @@ Vue.use(VueRouter);
 export const router = new VueRouter({
   mode: 'history',
   routes: [
-    { path: '/', component: Home },
-    { path: '/profile', component: Profile },
-    { path: '/login', component: Login },
+    {
+      path: '/',
+      name: 'Home',
+      component: Home
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: Profile,
+      meta: {
+        auth: true
+      }
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login,
+      meta: {
+        guest: true
+      }
+    },
   ]
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.auth)) {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        next()
+      } else {
+        next({
+          path: "/login",
+        })
+      }
+    })
+  } else if (to.matched.some(record => record.meta.guest)) {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        next({
+          path: "/profile",
+        })
+      } else {
+        next()
+      }
+    })
+  } else {
+    next()
+  }
+})
+
 
 new Vue({
   router,
