@@ -13,21 +13,21 @@
         id="nav-mobile"
         class="right"
       >
-        <li>
+        <li v-show="!user">
           <router-link
             to="/login"
           >
             Login
           </router-link>
         </li>
-        <li>
+        <li v-show="user">
           <router-link
             to="/profile"
           >
             Profile
           </router-link>
         </li>
-        <li>
+        <li v-show="user">
           <a @click="signoutButtonPressed">Logout</a>
         </li>
       </ul>
@@ -38,12 +38,22 @@
 <script>
 import firebase from "firebase";
 export default {
-    methods: {
-        signoutButtonPressed(e) {
-            e.stopPropagation();
-            firebase.auth().signOut();
-            this.$router.push("Login");
-        }
+  data() {
+    return {
+      user: null,
     }
+  },
+  created() {
+    firebase.auth().onAuthStateChanged(user => {
+        this.user = user;
+    });
+  },
+  methods: {
+      signoutButtonPressed(e) {
+          e.stopPropagation();
+          firebase.auth().signOut();
+          this.$router.push("Login");
+      }
+  }
 };
 </script>
