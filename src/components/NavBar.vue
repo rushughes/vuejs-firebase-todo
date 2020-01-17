@@ -13,6 +13,13 @@
         id="nav-mobile"
         class="right"
       >
+        <li v-show="user">
+          <router-link
+            to="/todo"
+          >
+            To Do
+          </router-link>
+        </li>
         <li v-show="!user">
           <router-link
             to="/login"

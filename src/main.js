@@ -5,6 +5,7 @@ import App from './App';
 import Home from './components/Home';
 import Login from './components/Login';
 import Profile from './components/Profile';
+import Todos from './components/Todos';
 
 // Your web app's Firebase configuration
 var firebaseConfig = {
@@ -48,6 +49,14 @@ export const router = new VueRouter({
         guest: true
       }
     },
+    {
+      path: '/todo',
+      name: 'Todos',
+      component: Todos,
+      meta: {
+          auth: true
+      }
+    }
   ]
 });
 
