@@ -1,19 +1,23 @@
 <template>
-    <section>
-        <navigation></navigation>
-        <h5 class="center-align">Profile</h5>
-    </section>
+  <section>
+    <navigation />
+    <h5 class="center-align">
+      Profile
+    </h5>
+  </section>
 </template>
 
 <script>
 import navigation from "@/components/NavBar.vue";
 
 export default {
-    data() {
-        return {};
-    },
+    name: "Profile",
     components: {
         navigation
+    },
+    data() {
+        return {};
     }
+
 };
 </script>
